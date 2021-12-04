@@ -1,0 +1,25 @@
+/*
+ * vantui样式
+*/
+.van-cell{
+    padding: 0;
+    border: 1px solid #f1f1f1f1;
+    border-radius: 3px;
+    line-height: 0;
+}
+.van-button--small{
+    height: 30px;
+}
+.van-field__control{
+    line-height: 30px;
+}
+.van-button--block{
+    height: 32px;
+}
+.van-button--round{
+    border-radius: 3px;
+}
+.van-button--info{
+    background-color: #48ca38;
+    border: 1px solid #48ca38;
+}
