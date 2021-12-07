@@ -38,23 +38,30 @@
       <div class="shopList_title">推荐商家</div>
       <!-- 推荐商家导航 -->
       <FilterView :filterData="filterData" @searchFixed="showFilterView" @update="update" />
+      <!-- 商家信息 -->
+      <div class="shopList">
+        <IndexShop v-for="( item, index ) in restaurants" :key="index" :restaurant="item.restaurant" />
+      </div>
   </div>
 </template>
 
 <script>
-import FilterView from '../../components/fiterView.vue'
-import { computed } from '@vue/composition-api'
+import FilterView from '../../components/fiterView.vue';
+import IndexShop from './components/indexShop.vue'
 export default {
   name: 'Home',
   components: {
-    FilterView
+    FilterView, IndexShop
   },
   data () {
     return {
-      swipeImgs: [],
-      entries: [],
+      swipeImgs: [ ],
+      entries: [ ],
       filterData: null,
-      showFilter: false
+      showFilter: false,
+      page: 1,
+      size: 5,
+      restaurants: [ ] //存放所有商家容器
     }
   },
   computed: {
@@ -80,8 +87,14 @@ export default {
       })
       this.$axios('api/profile/filter')
         .then(res => {
-          console.log(res.data)
+          //console.log(res.data)
           this.filterData = res.data
+        });
+        // 拉取商家信息
+        this.$axios.post('/api/profile/restaurants/1/5')
+        .then( res => {
+          console.log(res.data)
+          this.restaurants = res.data;
         })
     },
     showFilterView(isShow){
@@ -91,25 +104,6 @@ export default {
       console.log(condation)
     }
   },
-  /* setup (props, { root } ) {
-    const address = computed( () =>{
-      return root.$store.getters.address
-    })
-    const city = computed( ( ) => {
-      return root.$store.getters.location.addressComponent.city || 
-      root.$store.getters.location.addressComponent.province
-      //console.log(root.$store.getters.location)
-    })
-    const getData = () => {
-      root.$axios('/api/profile/shopping')
-      .then(res => {
-        console.log(res.data)
-      })
-    }
-    return {
-      address, city
-    }
-  } */
 }
 </script>
 
